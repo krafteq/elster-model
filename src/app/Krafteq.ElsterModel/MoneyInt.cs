@@ -21,7 +21,7 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Option<MoneyInt> RoundUp(decimal decimalValue) =>
+        public static MoneyInt RoundUp(decimal decimalValue) =>
             new MoneyInt(Math.Ceiling(Validate(decimalValue)));
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Option<MoneyInt> RoundDown(decimal decimalValue) =>
+        public static MoneyInt RoundDown(decimal decimalValue) =>
             new MoneyInt(Math.Floor(Validate(decimalValue)));
 
         static decimal Validate(decimal value) =>

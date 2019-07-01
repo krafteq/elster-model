@@ -102,10 +102,20 @@ namespace Krafteq.ElsterModel.Ustva
             );
         }
 
+        public Either<UstvaKzFieldsValidationError, UstvaKzFields> Validate()
+        {
+            return new UstvaKzFieldsValidationError();
+        }
+
         static decimal Unbox<T>(Option<T> value)
             where T : NewType<T, decimal>
         {
             return value.Map(x => x.Value).IfNone(0m);
         }
+    }
+
+    public class UstvaKzFieldsValidationError
+    {
+        
     }
 }

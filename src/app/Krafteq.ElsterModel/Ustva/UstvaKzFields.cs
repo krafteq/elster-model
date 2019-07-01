@@ -4,7 +4,7 @@ namespace Krafteq.ElsterModel.Ustva
 
     /// <summary>
     /// Represents valid KzFields for Ustva report
-    /// Must be created via UstvaKzFieldsValidator.Validate
+    /// Can be created via UstvaKzFieldsForm.Validate method
     /// </summary>
     public class UstvaKzFields
     {
