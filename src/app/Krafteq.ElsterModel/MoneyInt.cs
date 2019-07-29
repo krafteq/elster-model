@@ -21,20 +21,20 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static MoneyInt RoundUp(decimal decimalValue) =>
-            new MoneyInt(Math.Ceiling(Validate(decimalValue)));
+        public static Either<Error, MoneyInt> RoundUp(decimal decimalValue) =>
+            Validate(decimalValue).Map(x => new MoneyInt(Math.Ceiling(x)));
 
         /// <summary>
         /// Usually used for Income in the UstVa report
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static MoneyInt RoundDown(decimal decimalValue) =>
-            new MoneyInt(Math.Floor(Validate(decimalValue)));
+        public static Either<Error, MoneyInt> RoundDown(decimal decimalValue) =>
+            Validate(decimalValue).Map(x => new MoneyInt(Math.Floor(x)));
 
-        static decimal Validate(decimal value) =>
+        static Either<Error, decimal> Validate(decimal value) =>
             Math.Abs(value) > 9999999999999m 
-                ? throw new InvalidOperationException("value must be less than 10^13") 
+                ? (Either<Error, decimal>) new Error("value must be less than 10^13") 
                 : value; //13 digits
         
         public static implicit operator decimal(MoneyInt money) => money.Value;

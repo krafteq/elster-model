@@ -9,26 +9,25 @@ namespace Krafteq.ElsterModel.Tests
         [Fact]
         public void ItShouldRoundUpValidValue()
         {
-            Money.RoundUp(1.2545m).Value.Should().Be(1.26m);
+            Money.RoundUp(1.2545m).AssertRight().Value.Should().Be(1.26m);
         }
         
         [Fact]
         public void ItShouldRoundDownValidValue()
         {
-            Money.RoundDown(1.2545m).Value.Should().Be(1.25m);
+            Money.RoundDown(1.2545m).AssertRight().Value.Should().Be(1.25m);
         }
         
         [Fact]
         public void ItShouldThrowExceptionWhenGivenValueIsTooBig()
         {
-            Assert.Throws<InvalidOperationException>(() =>
-                Money.RoundUp(100m * 1000 * 1000 * 1000));
+            Money.RoundUp(100m * 1000 * 1000 * 1000).IsLeft.Should().BeTrue();
         }
         
         [Fact]
         public void ItShouldCreateNegativeValue()
         {
-            Money.RoundUp(-1).Value.Should().Be(-1);
+            Money.RoundUp(-1).AssertRight().Value.Should().Be(-1);
         }
     }
 }

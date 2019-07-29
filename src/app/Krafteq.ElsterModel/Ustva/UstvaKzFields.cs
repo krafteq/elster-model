@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Ustva
 {
+    using System.Collections.Generic;
     using LanguageExt;
 
     /// <summary>
@@ -8,11 +9,22 @@ namespace Krafteq.ElsterModel.Ustva
     /// </summary>
     public class UstvaKzFields
     {
-        public Lst<KzField> Fields { get; }
+        public static readonly KzFieldsForm Form = new UstvaKzFieldsFormBuilder().Build();
+        
+        public KzFieldSet FieldSet { get; }
 
-        internal UstvaKzFields(Lst<KzField> fields)
+        UstvaKzFields(KzFieldSet fieldSet)
         {
-            this.Fields = fields;
+            this.FieldSet = fieldSet;
+        }
+
+        public static Either<KzFieldFormValidationError, UstvaKzFields> Create(IDictionary<int, object> values)
+        {
+            var validationResult = Form.ValidateForm(values);
+
+            return validationResult.IsValid
+                ? (Either<KzFieldFormValidationError, UstvaKzFields>) new UstvaKzFields(validationResult.ValidFieldSet)
+                : validationResult.ValidationError;
         }
     }
 }

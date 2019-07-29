@@ -22,19 +22,19 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static UnsignedMoney RoundUp(decimal decimalValue) =>
-            new UnsignedMoney(Money.RoundUp(Validate(decimalValue)).Value);
+        public static Either<Error, UnsignedMoney> RoundUp(decimal decimalValue) =>
+            Validate(decimalValue).Bind(Money.RoundUp).Map(x => new UnsignedMoney(x.Value));
 
         /// <summary>
         /// Usually used for Income in the UstVa report
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static UnsignedMoney RoundDown(decimal decimalValue) =>
-            new UnsignedMoney(Money.RoundDown(Validate(decimalValue)).Value);
+        public static Either<Error, UnsignedMoney> RoundDown(decimal decimalValue) =>
+            Validate(decimalValue).Bind(Money.RoundDown).Map(x => new UnsignedMoney(x.Value));
 
-        static decimal Validate(decimal value) =>
-            value < 0 ? throw new InvalidOperationException("value must be not-negative") : value;
+        static Either<Error, decimal> Validate(decimal value) =>
+            value < 0 ? (Either<Error, decimal>) new Error("value must be not-negative") : value;
         
         public static implicit operator decimal(UnsignedMoney money) => money.Value;
     }
