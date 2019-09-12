@@ -57,5 +57,11 @@ namespace Krafteq.ElsterModel
             m => m.Value,
             m => m.Value,
             m => m.Value);
+
+        public object GetUnderlyingValue() => this.Match(
+            b => (object)b,
+            b => b.Value,
+            b => b.Value,
+            b => b.Value);
     }
 }

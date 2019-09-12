@@ -33,7 +33,7 @@ namespace Krafteq.ElsterModel
                     .Map(value => value.GetDecimalValue())
                     .Match(
                         value => value >= comparedValue && value != 0m
-                            ? Prelude.Some(new Error($"less than {this.lessThan.Value}"))
+                            ? Prelude.Some(new Error($"must be less than {this.lessThan.Value}"))
                             : Prelude.None,
                         () => Prelude.None));
             }

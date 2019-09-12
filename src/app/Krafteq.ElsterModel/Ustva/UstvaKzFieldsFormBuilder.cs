@@ -50,7 +50,7 @@ namespace Krafteq.ElsterModel.Ustva
             this.F(89, KzFieldType.MoneyIntDown, "Intra-Community acquisitions at a tax rate of 19%.");
             this.F(91, KzFieldType.MoneyIntDown, "Tax-free intra-Community acquisitions according to §$ 4b and 25c VAT Act");
             this.F(93, KzFieldType.MoneyIntDown, "Intra-Community acquisitions at a tax rate of 7 %.");
-            this.F(94, KzFieldType.MoneyIntDown, "Intra-Community acquisitions of new vehicles (§ 1b Abs. 2 und 3 UStG) from suppliers without a VAT ID number at the general tax rate");
+            this.F(94, KzFieldType.MoneyIntDown, "Intra-Community acquisitions of new vehicles (§ 1b Abs. 2 und 3 StG) from suppliers without a VAT ID number at the general tax rate");
             this.F(95, KzFieldType.MoneyIntDown, "Intra-Community acquisitions at other tax rates");
             this.F(96, KzFieldType.MoneyDown, "Tax Amount to Kz94");
             this.F(98, KzFieldType.MoneyDown, "Tax Amount to Kz95");
@@ -71,7 +71,7 @@ namespace Krafteq.ElsterModel.Ustva
                     .Match(
                         estimatedValue => Math.Abs(fieldValue - estimatedValue.Value) > 0.01m
                             ? List(new Error(
-                                $"difference between calculated value {estimatedValue.Value} must not be greater than 0.01"))
+                                $"the difference with the expected value [{estimatedValue.Value}] must not be greater than 0.01"))
                             : Lst<Error>.Empty,
                         () => List(new Error("calculated Kz83 value is invalid")))).IfNone(Lst<Error>.Empty);
     }
