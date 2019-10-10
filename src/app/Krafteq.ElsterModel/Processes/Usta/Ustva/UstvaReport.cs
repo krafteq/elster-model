@@ -7,18 +7,18 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
         public TaxTimestamp Timestamp { get; }
         public TaxNumber TaxNumber { get; }
         public UstvaKzFields Kz { get; }
-        public ReportSource Source { get; }
+        public Kz09 Kz09 { get; }
         
         public UstvaReport(
             TaxTimestamp timestamp,
             TaxNumber taxNumber,
             UstvaKzFields kz,
-            ReportSource source)
+            Kz09 source)
         {
             this.Timestamp = timestamp ?? throw new ArgumentNullException(nameof(timestamp));
             this.TaxNumber = taxNumber ?? throw new ArgumentNullException(nameof(taxNumber));
             this.Kz = kz ?? throw new ArgumentNullException(nameof(kz));
-            this.Source = source ?? throw new ArgumentNullException(nameof(source));
+            this.Kz09 = source ?? throw new ArgumentNullException(nameof(source));
         }
     }
 }
