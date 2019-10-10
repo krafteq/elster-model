@@ -1,21 +1,21 @@
-namespace Krafteq.ElsterModel
+namespace Krafteq.ElsterModel.Processes.Usta
 {
     using System;
-    using Krafteq.ElsterModel.Ustva;
+    using Krafteq.ElsterModel.Processes.Usta.Ustva;
 
-    public class TaxCaseReport
+    public class TaxReport
     {
         public string ReportType { get; private set; }
         UstvaReport ustva;
         
-        TaxCaseReport(){}
+        TaxReport(){}
 
-        public static TaxCaseReport Ustva(UstvaReport ustva) =>
-            new TaxCaseReport {ustva = ustva, ReportType = "ustva"};
+        public static TaxReport Ustva(UstvaReport ustva) =>
+            new TaxReport {ustva = ustva, ReportType = "ustva"};
 
         public T Match<T>(
             Func<UstvaReport, T> whenUstva,
-            Func<TaxCaseReport, T> fallback
+            Func<TaxReport, T> fallback
         )
         {
             if (this.ustva != null)

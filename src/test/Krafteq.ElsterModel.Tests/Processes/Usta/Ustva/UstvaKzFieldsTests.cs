@@ -1,8 +1,8 @@
-namespace Krafteq.ElsterModel.Tests.Ustva
+namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
 {
     using System.Collections.Generic;
     using FluentAssertions;
-    using Krafteq.ElsterModel.Ustva;
+    using Krafteq.ElsterModel.Processes.Usta.Ustva;
     using Xunit;
 
     public class UstvaKzFieldsTests

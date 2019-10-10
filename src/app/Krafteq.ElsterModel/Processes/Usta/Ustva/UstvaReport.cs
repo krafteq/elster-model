@@ -1,8 +1,6 @@
-namespace Krafteq.ElsterModel.Ustva
+namespace Krafteq.ElsterModel.Processes.Usta.Ustva
 {
     using System;
-    using Krafteq.ElsterModel.Common;
-    using LanguageExt;
 
     public class UstvaReport
     {

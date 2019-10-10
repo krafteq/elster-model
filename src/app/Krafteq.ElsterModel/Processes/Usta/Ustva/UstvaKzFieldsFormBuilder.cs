@@ -1,9 +1,7 @@
-namespace Krafteq.ElsterModel.Ustva
+namespace Krafteq.ElsterModel.Processes.Usta.Ustva
 {
     using System;
-    using System.Runtime.CompilerServices;
     using LanguageExt;
-    
     using static LanguageExt.Prelude;
 
     public class UstvaKzFieldsFormBuilder : KzFieldsFormBuilder

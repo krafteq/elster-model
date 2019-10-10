@@ -17,4 +17,8 @@
     <ProjectReference Include="..\..\app\Krafteq.ElsterModel\Krafteq.ElsterModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common" />
+  </ItemGroup>
+
 </Project>

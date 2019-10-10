@@ -11,7 +11,7 @@ namespace Krafteq.ElsterModel.Tests
         {
             Money.RoundUp(1.2545m).AssertRight().Value.Should().Be(1.26m);
         }
-        
+
         [Fact]
         public void ItShouldRoundDownValidValue()
         {

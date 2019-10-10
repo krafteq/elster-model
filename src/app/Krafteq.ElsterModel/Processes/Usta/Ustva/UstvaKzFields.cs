@@ -1,4 +1,4 @@
-namespace Krafteq.ElsterModel.Ustva
+namespace Krafteq.ElsterModel.Processes.Usta.Ustva
 {
     using System.Collections.Generic;
     using LanguageExt;

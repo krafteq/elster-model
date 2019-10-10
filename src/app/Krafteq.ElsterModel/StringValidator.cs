@@ -1,4 +1,4 @@
-namespace Krafteq.ElsterModel.Common
+namespace Krafteq.ElsterModel
 {
     using LanguageExt;
 
@@ -14,6 +14,8 @@ namespace Krafteq.ElsterModel.Common
             this.maxLength = maxLength;
             this.exactLength = exactLength;
         }
+
+        public static StringValidator MinMax(int min, int max) => new StringValidator(minLength: min, maxLength: max);
 
         public static StringValidator Max(int value) =>
             new StringValidator(maxLength: value);
