@@ -10,7 +10,12 @@ namespace Krafteq.ElsterModel.Common
         public POBox POBox { get; }
         public ContactInfo ContactInfo { get; }
 
-        public CompanyInfo(CompanyName companyName, FullName personName, Address address, POBox poBox, ContactInfo contactInfo)
+        public CompanyInfo(
+            CompanyName companyName, 
+            FullName personName, 
+            Address address, 
+            POBox poBox, 
+            ContactInfo contactInfo)
         {
             this.CompanyName = companyName ?? throw new ArgumentNullException(nameof(companyName));
             this.PersonName = personName ?? throw new ArgumentNullException(nameof(personName));

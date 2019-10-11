@@ -57,6 +57,12 @@ namespace Krafteq.ElsterModel
             m => m.Value,
             m => m.Value,
             m => m.Value);
+        
+        public bool GetBooleanValue() => this.Match(
+            b => b, 
+            m => throw new InvalidOperationException("Decimal value doesn't has boolean value"),
+            m => throw new InvalidOperationException("Decimal value doesn't has boolean value"),
+            m => throw new InvalidOperationException("Decimal value doesn't has boolean value"));
 
         public object GetUnderlyingValue() => this.Match(
             b => (object)b,

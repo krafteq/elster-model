@@ -11,11 +11,11 @@ namespace Krafteq.ElsterModel.Processes.Usta
     /// </summary>
     public class TaxCase
     {
-        public Option<AccountantInfo> Accountant { get; }
+        public Option<CompanyInfo> Accountant { get; }
         public CompanyInfo Company { get; }
         public TaxReport Report { get; }
 
-        public TaxCase(TaxReport report, CompanyInfo company, Option<AccountantInfo> accountant)
+        public TaxCase(TaxReport report, CompanyInfo company, Option<CompanyInfo> accountant)
         {
             this.Accountant = accountant;
             this.Company = company ?? throw new ArgumentNullException(nameof(company));
