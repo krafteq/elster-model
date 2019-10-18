@@ -72,15 +72,15 @@ namespace Krafteq.ElsterModel
         public bool IsTaxNumberValid(string value) =>
             this.taxNumberReplacer.IsValidInput(value);
 
-        public Option<TaxNumber> CreateTaxNumber(string value)
+        public Either<Error, TaxNumber> CreateTaxNumber(string value)
         {
             if (!this.taxNumberReplacer.IsValidInput(value))
             {
-                return Prelude.None;
+                return new Error("invalid format");
             }
             
             var taxNumber = this.taxNumberReplacer.Replace(value);
-            return TaxNumber.Create(taxNumber).AssertSome();
+            return TaxNumber.Create(taxNumber);
         }
 
         static Bundesland Create(string code, MaskReplacer taxNumberReplacer)

@@ -4,17 +4,13 @@ namespace Krafteq.ElsterModel
 
     public class TaxNumber : NewType<TaxNumber, string>
     {
+        static readonly StringValidator Validator = StringValidator.Exact(13);
+
         TaxNumber(string value) : base(value)
         {
         }
 
-        public static Option<TaxNumber> Create(string value)
-        {
-            // it could be better validation with a checksum 
-            if (value.Length != 13)
-                return Prelude.None;
-
-            return new TaxNumber(value);
-        }
+        public static Either<Error, TaxNumber> Create(string value) =>
+            Validator.Validate(value).Map(x => new TaxNumber(x));
     }
 }

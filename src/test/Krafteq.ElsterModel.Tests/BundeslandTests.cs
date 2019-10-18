@@ -57,7 +57,7 @@ namespace Krafteq.ElsterModel.Tests
         public void ItCreatesTaxNumbers(string bundesland, string input, string expected)
         {
             Bundesland.Parse(bundesland).AssertSome()
-                .CreateTaxNumber(input).ShouldBeSome().Value.Should().Be(expected);
+                .CreateTaxNumber(input).should_be_right().Value.Should().Be(expected);
 
         }
     }
