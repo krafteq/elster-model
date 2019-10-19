@@ -1,4 +1,4 @@
-namespace Krafteq.ElsterModel
+namespace Krafteq.ElsterModel.ValidationCore
 {
     using LanguageExt;
 

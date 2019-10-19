@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Tests
 {
+    using Krafteq.ElsterModel.ValidationCore;
     using Xunit;
 
     public class StringValidatorTests

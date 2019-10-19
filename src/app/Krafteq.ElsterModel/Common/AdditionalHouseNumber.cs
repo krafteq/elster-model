@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Common
 {
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class AdditionalHouseNumber : NewType<AdditionalHouseNumber, string>

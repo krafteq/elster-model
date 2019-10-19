@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Processes.Usta
 {
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class DataSupplierStreet : NewType<DataSupplierStreet, string>

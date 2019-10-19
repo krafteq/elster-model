@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Processes.Usta
 {
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class DataSupplierName : NewType<DataSupplierName, string>

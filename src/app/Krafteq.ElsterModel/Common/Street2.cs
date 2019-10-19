@@ -1,5 +1,6 @@
 namespace Krafteq.ElsterModel.Common
 {
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class Street2 : NewType<Street2, string>

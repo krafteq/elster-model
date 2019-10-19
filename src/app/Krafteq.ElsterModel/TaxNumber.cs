@@ -2,6 +2,7 @@ namespace Krafteq.ElsterModel
 {
     using System;
     using System.Security;
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class TaxNumber : NewType<TaxNumber, string>
