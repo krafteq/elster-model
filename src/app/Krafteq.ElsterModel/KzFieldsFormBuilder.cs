@@ -20,7 +20,7 @@ namespace Krafteq.ElsterModel
             this.fields.Add(new KzFieldMeta(number, type, description));
         }
 
-        protected void ValidationRules(int number, params ValidationRule[] rules)
+        protected void ValidationRules(int number, params KzFieldValidationRule[] rules)
         {
             this.validationRules.Add(new KzFieldValidationRules(number, toList(rules)));
         }

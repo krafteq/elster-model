@@ -56,9 +56,9 @@ namespace Krafteq.ElsterModel.Tests
         [InlineData("TH", "198/815/08152", "4198081508152")]
         public void ItCreatesTaxNumbers(string bundesland, string input, string expected)
         {
-            Bundesland.Parse(bundesland).AssertSome()
-                .CreateTaxNumber(input).should_be_right().Value.Should().Be(expected);
+            var model = Bundesland.Parse(bundesland).AssertSome();
 
+            TaxNumber.FromLocalTaxNumber(model, input).should_be_valid().Value.Should().Be(expected);
         }
     }
 }

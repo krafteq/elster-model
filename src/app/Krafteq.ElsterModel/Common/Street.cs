@@ -4,13 +4,15 @@ namespace Krafteq.ElsterModel.Common
 
     public class Street : NewType<Street, string>
     {
-        static readonly StringValidator Validator = StringValidator.Max(33);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(33)
+        );
         
         Street(string value) : base(value)
         {
         }
 
-        public static Either<Error, Street> Create(string value) =>
-            Validator.Validate(value).Map(x => new Street(x));
+        public static Validation<StringError, Street> Create(string value) =>
+            Validator(value).Map(x => new Street(x));
     }
 }

@@ -2,6 +2,7 @@ namespace Krafteq.ElsterModel
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     /// <summary>
@@ -11,6 +12,10 @@ namespace Krafteq.ElsterModel
     /// </summary>
     public class Money : NewType<Money, decimal>
     {
+        static readonly Validator<NumericError, decimal> Validator = Validators.All(
+            NumberValidators.LessThan(100000000000m)
+        );
+        
         Money(decimal value) : base(value)
         {
         }
@@ -20,21 +25,16 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Either<Error, Money> RoundUp(decimal decimalValue) =>
-            Validate(decimalValue).Map(x => new Money(Math.Ceiling(x * 100) / 100));
+        public static Validation<NumericError, Money> RoundUp(decimal decimalValue) =>
+            Validator(decimalValue).Map(x => new Money(Math.Ceiling(x * 100) / 100));
         
         /// <summary>
         /// Usually used for Income in the UstVa report
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Either<Error, Money> RoundDown(decimal decimalValue) =>
-            Validate(decimalValue).Map(x => new Money(Math.Floor(x * 100) / 100));
-        
-        static Either<Error, decimal> Validate(decimal value) =>
-            Math.Abs(value) > 99999999999m 
-                ? (Either<Error, decimal>) new Error("value must be less than 10^11") 
-                : value; //11 digits, 2 decimal
+        public static Validation<NumericError, Money> RoundDown(decimal decimalValue) =>
+            Validator(decimalValue).Map(x => new Money(Math.Floor(x * 100) / 100));
 
         public static implicit operator decimal(Money money) => money.Value;
     }

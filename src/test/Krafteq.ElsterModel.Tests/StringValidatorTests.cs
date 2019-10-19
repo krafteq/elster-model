@@ -1,6 +1,5 @@
-namespace Krafteq.ElsterModel.Tests.Common
+namespace Krafteq.ElsterModel.Tests
 {
-    using Krafteq.ElsterModel.Common;
     using Xunit;
 
     public class StringValidatorTests
@@ -12,14 +11,14 @@ namespace Krafteq.ElsterModel.Tests.Common
         [InlineData(3, "AB", false)]
         public void ItShouldValidateMinimumLength(int minLength, string input, bool isValid)
         {
-            var sut = new StringValidator(minLength: minLength);
+            var sut = StringValidators.MinLength(minLength);
 
             if (isValid)
-                sut.Validate(input).should_be_right();
+                sut(input).should_be_valid();
             else
-                sut.Validate(input).should_be_left();
+                sut(input).should_fail();
         }
-        
+
         [Theory]
         [InlineData(3, "", true)]
         [InlineData(3, "A", true)]
@@ -27,14 +26,14 @@ namespace Krafteq.ElsterModel.Tests.Common
         [InlineData(1, "AB", false)]
         public void ItShouldValidateMaximumLength(int maxLength, string input, bool isValid)
         {
-            var sut = new StringValidator(maxLength: maxLength);
+            var sut = StringValidators.MaxLength(maxLength);
 
             if (isValid)
-                sut.Validate(input).should_be_right();
+                sut(input).should_be_valid();
             else
-                sut.Validate(input).should_be_left();
+                sut(input).should_fail();
         }
-        
+
         [Theory]
         [InlineData(3, "", false)]
         [InlineData(3, "A", false)]
@@ -42,12 +41,12 @@ namespace Krafteq.ElsterModel.Tests.Common
         [InlineData(1, "AB", false)]
         public void ItShouldValidateExactLength(int exactLength, string input, bool isValid)
         {
-            var sut = new StringValidator(exactLength: exactLength);
+            var sut = StringValidators.ExactLength(exactLength);
 
             if (isValid)
-                sut.Validate(input).should_be_right();
+                sut(input).should_be_valid();
             else
-                sut.Validate(input).should_be_left();
+                sut(input).should_fail();
         }
     }
 }

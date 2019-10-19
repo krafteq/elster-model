@@ -3,6 +3,8 @@ namespace Krafteq.ElsterModel.Tests
     using System;
     using FluentAssertions;
     using LanguageExt;
+    
+    using static LanguageExt.Prelude;
 
     public static class Extensions
     {
@@ -42,5 +44,12 @@ namespace Krafteq.ElsterModel.Tests
             option.IsSome.Should().BeTrue();
             return option.IfNone(default(T));
         }
+        
+        public static T should_be_valid<L, T>(this Validation<L, T> either) =>
+            either.IfFail(f => throw new InvalidOperationException("should be right"));
+        
+        public static Lst<L> should_fail<L, T>(this Validation<L, T> either) =>
+            toList(either
+                .IfSuccess(f => throw new InvalidOperationException("should be right")));
     }
 }

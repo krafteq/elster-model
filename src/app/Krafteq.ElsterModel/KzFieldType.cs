@@ -1,13 +1,14 @@
 namespace Krafteq.ElsterModel
 {
     using System;
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     using static LanguageExt.Prelude;
 
     public class KzFieldType : NewType<KzFieldType, string>
     {
-        readonly Func<object, Either<Error, KzFieldValue>> valueFactory;
+        readonly Func<object, Validation<KzFieldError, KzFieldValue>> valueFactory;
 
         public static readonly KzFieldType Boolean = new KzFieldType(
             "boolean", BooleanValue);
@@ -31,30 +32,33 @@ namespace Krafteq.ElsterModel
         public static readonly KzFieldType UnsignedMoneyUp = new KzFieldType("money-unsigned.round-up",
             DecimalValue(KzFieldValue.UnsignedMoney, UnsignedMoney.RoundUp));
 
-        KzFieldType(string value, Func<object, Either<Error, KzFieldValue>> valueFactory) : base(value)
+        KzFieldType(string value, Func<object, Validation<KzFieldError, KzFieldValue>> valueFactory) : base(value)
         {
             this.valueFactory = valueFactory;
         }
 
-        public Either<Error, KzFieldValue> CreateFieldValue(object value) => this.valueFactory(value);
+        public Validation<KzFieldError, KzFieldValue> CreateFieldValue(object value) => this.valueFactory(value);
 
-        static Func<object, Either<Error, KzFieldValue>> DecimalValue<T>(
+        static Func<object, Validation<KzFieldError, KzFieldValue>> DecimalValue<T>(
             Func<T, KzFieldValue> fieldValueFactory,
-            Func<decimal, Either<Error, T>> intermediateFactory) =>
+            Func<decimal, Validation<NumericError, T>> intermediateFactory) =>
             DecimalValue(x => intermediateFactory(x).Map(fieldValueFactory));
 
-        static Func<object, Either<Error, KzFieldValue>> DecimalValue(
-            Func<decimal, Either<Error, KzFieldValue>> fieldValueFactory) =>
-            value => CreateDecimal(value).Bind(fieldValueFactory);
+        static Func<object, Validation<KzFieldError, KzFieldValue>> DecimalValue(
+            Func<decimal, Validation<NumericError, KzFieldValue>> fieldValueFactory) =>
+            value => CreateDecimal(value)
+                .Bind(d => fieldValueFactory(d)
+                    .MapFail(KzFieldError.FromDecimalValidationError)
+                );
 
-        static Either<Error, KzFieldValue> BooleanValue(object value) =>
+        static Validation<KzFieldError, KzFieldValue> BooleanValue(object value) =>
             CreateBoolean(value).Map(KzFieldValue.Boolean);
 
-        static Either<Error, bool> CreateBoolean(object value) =>
-            TryCreateBool(value).ToEither(() => new Error("invalid boolean"));
+        static Validation<KzFieldError, bool> CreateBoolean(object value) =>
+            TryCreateBool(value).ToValidation(KzFieldError.BooleanPresentationError);
 
-        static Either<Error, decimal> CreateDecimal(object value) =>
-            TryCreateDecimal(value).ToEither(() => new Error("invalid decimal"));
+        static Validation<KzFieldError, decimal> CreateDecimal(object value) =>
+            TryCreateDecimal(value).ToValidation(KzFieldError.DecimalPresentationError);
 
         static Option<bool> TryCreateBool(object value)
         {

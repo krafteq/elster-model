@@ -62,38 +62,32 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
 
     public class ManufacturerId : NewType<ManufacturerId, string>
     {
-        static readonly StringValidator Validator = StringValidator.Exact(5);
-        
-        public static Either<Error, ManufacturerId> Create(string value) =>
-            Validate(value).Map(x => new ManufacturerId(x));
-        
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.ExactLength(5),
+            StringValidators.DigitsOnly(),
+            StringValidators.MustNotContain("*")
+        );
+
+        public static Validation<StringError, ManufacturerId> Create(string value) =>
+            Validator(value).Map(x => new ManufacturerId(x));
+
         ManufacturerId(string value) : base(value)
         {
         }
-
-
-        static Either<Error, string> Validate(string value) =>
-            Validator.Validate(value)
-                .Bind(v => Optional(v)
-                    .Filter(x => !x.Contains("*"))
-                    .ToEither(() => new Error("should not contain '*'")));
     }
-    
+
     public class Kz09PartialString : NewType<Kz09PartialString, string>
     {
-        static readonly StringValidator Validator = StringValidator.Max(85);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(85),
+            StringValidators.MustNotContain("*")
+        );
         
-        public static Either<Error, Kz09PartialString> Create(string value) =>
-            Validate(value).Map(x => new Kz09PartialString(x));
+        public static Validation<StringError, Kz09PartialString> Create(string value) =>
+            Validator(value).Map(x => new Kz09PartialString(x));
         
         Kz09PartialString(string value) : base(value)
         {
         }
-        
-        static Either<Error, string> Validate(string value) =>
-            Validator.Validate(value)
-                .Bind(v => Optional(v)
-                    .Filter(x => !x.Contains("*"))
-                    .ToEither(() => new Error("should not contain '*'")));
     }
 }

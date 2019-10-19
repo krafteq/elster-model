@@ -4,13 +4,16 @@ namespace Krafteq.ElsterModel.Common
 
     public class Zip : NewType<Zip, string>
     {
-        static readonly StringValidator Validator = StringValidator.Exact(5);
-        
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.ExactLength(5),
+            StringValidators.DigitsOnly()
+        );
+
         Zip(string value) : base(value)
         {
         }
 
-        public static Either<Error, Zip> Create(string value) =>
-            Validator.Validate(value).Map(x => new Zip(x));
+        public static Validation<StringError, Zip> Create(string value) =>
+            Validator(value).Map(x => new Zip(x));
     }
 }

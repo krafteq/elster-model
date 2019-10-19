@@ -4,12 +4,15 @@ namespace Krafteq.ElsterModel.Common
 
     public class Country : NewType<Country, string>
     {
-        static readonly StringValidator Validator = StringValidator.Max(20);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(20)
+        );
+        
         Country(string value) : base(value)
         {
         }
 
-        public static Either<Error, Country> Create(string value) =>
-            Validator.Validate(value).Map(x => new Country(x));
+        public static Validation<StringError, Country> Create(string value) =>
+            Validator(value).Map(x => new Country(x));
     }
 }

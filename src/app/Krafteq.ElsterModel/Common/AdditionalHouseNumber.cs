@@ -4,13 +4,15 @@ namespace Krafteq.ElsterModel.Common
 
     public class AdditionalHouseNumber : NewType<AdditionalHouseNumber, string>
     {
-        static readonly StringValidator Validator = StringValidator.Max(15);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(15)
+        );
         
         AdditionalHouseNumber(string value) : base(value)
         {
         }
 
-        public static Either<Error, AdditionalHouseNumber> Create(string value) =>
-            Validator.Validate(value).Map(x => new AdditionalHouseNumber(x));
+        public static Validation<StringError, AdditionalHouseNumber> Create(string value) =>
+            Validator(value).Map(x => new AdditionalHouseNumber(x));
     }
 }

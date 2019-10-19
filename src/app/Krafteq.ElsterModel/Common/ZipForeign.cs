@@ -4,12 +4,15 @@ namespace Krafteq.ElsterModel.Common
 
     public class ZipForeign : NewType<ZipForeign, string>
     {
-        static readonly StringValidator Validator = StringValidator.Max(13);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(13)
+        );
+        
         ZipForeign(string value) : base(value)
         {
         }
 
-        public static Either<Error, ZipForeign> Create(string value) =>
-            Validator.Validate(value).Map(x => new ZipForeign(x));
+        public static Validation<StringError, ZipForeign> Create(string value) =>
+            Validator(value).Map(x => new ZipForeign(x));
     }
 }

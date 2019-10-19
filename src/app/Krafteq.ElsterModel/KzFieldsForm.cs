@@ -25,18 +25,21 @@ namespace Krafteq.ElsterModel
         {
             var fields = values.Map(x => this.GetFieldValue(x.Key, x.Value)
                     .Map(value => new KzField(x.Key, value))
-                    .MapLeft(err => new KzFieldValidationError(x.Key, List(err))))
+                    .MapFail(err => new KzFieldValidationError(x.Key, List(err)))
+                )
                 .Apply(toList);
 
-            var validFields = fields.Rights();
-            var failedFields = fields.Lefts();
+            var validFields = fields.SelectMany(f => f.SuccessAsEnumerable());
+            var failedFields = fields.SelectMany(f => f.FailAsEnumerable());
 
             var fieldSet = new KzFieldSet(
                 toHashSet(validFields));
 
             var failedValidationRules = this.ValidationRules
-                .Map(x => (x.FieldNumber,
-                    errors: toList(x.Rules.SelectMany(rule => rule.Validate(fieldSet, x.FieldNumber)))))
+                .Map(x => (
+                    x.FieldNumber,
+                    errors: toList(x.Rules.SelectMany(rule => rule.Validate(fieldSet, x.FieldNumber)))
+                    ))
                 .Filter(x => x.errors.Any())
                 .Map(x => new KzFieldValidationError(x.FieldNumber, x.errors));
 
@@ -45,9 +48,9 @@ namespace Krafteq.ElsterModel
                 new KzFieldFormValidationError(toList(failedFields) + failedValidationRules));
         }
 
-        Either<Error, KzFieldValue> GetFieldValue(int number, object value) =>
+        Validation<KzFieldError, KzFieldValue> GetFieldValue(int number, object value) =>
             this.map.Find(number)
-                .ToEither(() => new Error("unknown field"))
+                .ToValidation(KzFieldError.UnknownField)
                 .Bind(fieldMeta => fieldMeta.Type.CreateFieldValue(value));
     }
 }

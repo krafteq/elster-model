@@ -1,6 +1,7 @@
 namespace Krafteq.ElsterModel.Processes.Usta.Ustva
 {
     using System;
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     public class Kz83Calculator
@@ -12,7 +13,7 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
             this.fieldSet = fieldSet ?? throw new ArgumentNullException(nameof(fieldSet));
         }
 
-        public Either<Error, Money> Calculate() => Money.RoundDown(
+        public Validation<NumericError, Money> Calculate() => Money.RoundDown(
             this.V(81, 0.19m) +
             this.V(86, 0.07m) +
             this.V(36) +

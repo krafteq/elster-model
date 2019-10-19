@@ -4,7 +4,7 @@ namespace Krafteq.ElsterModel
 
     public class KzFieldValidationError
     {
-        public KzFieldValidationError(int fieldNumber, Lst<Error> errors)
+        public KzFieldValidationError(int fieldNumber, Lst<KzFieldError> errors)
         {
             this.FieldNumber = fieldNumber;
             this.Errors = errors;
@@ -12,6 +12,6 @@ namespace Krafteq.ElsterModel
 
         public int FieldNumber { get; }
         
-        public Lst<Error> Errors { get; }
+        public Lst<KzFieldError> Errors { get; }
     }
 }

@@ -4,10 +4,13 @@ namespace Krafteq.ElsterModel.Processes.Usta
 
     public class DataSupplierStreet : NewType<DataSupplierStreet, string>
     {
-        static readonly StringValidator Validator = StringValidator.MinMax(1, 30);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MinLength(1),
+            StringValidators.MaxLength(30)
+        );
         
-        public static Either<Error, DataSupplierStreet> Create(string value) =>
-            Validator.Validate(value).Map(x => new DataSupplierStreet(x));
+        public static Validation<StringError, DataSupplierStreet> Create(string value) =>
+            Validator(value).Map(x => new DataSupplierStreet(x));
         
         DataSupplierStreet(string value) : base(value)
         {

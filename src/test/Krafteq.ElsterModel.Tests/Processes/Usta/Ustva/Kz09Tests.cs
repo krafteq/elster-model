@@ -12,7 +12,7 @@ namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
         [Fact]
         public void ItShouldFormatManufacturerOnlyCorrectly()
         {
-            var sut = Kz09.Manufacturer(ManufacturerId.Create("12345").AssertRight());
+            var sut = Kz09.Manufacturer(ManufacturerId.Create("12345").should_be_valid());
 
             sut.Formatted.Should().Be("12345");
         }
@@ -20,15 +20,15 @@ namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
         [Fact]
         public void ItShouldFormatOtherParts()
         {
-            var manufacturerId = ManufacturerId.Create("12345").AssertRight();
+            var manufacturerId = ManufacturerId.Create("12345").should_be_valid();
             
             var sut = new Kz09(
                 manufacturerId,
-                Kz09PartialString.Create("Consultant Name").AssertRight(),
+                Kz09PartialString.Create("Consultant Name").should_be_valid(),
                 None,
                 None,
                 None,
-                Kz09PartialString.Create("Mandant Name").AssertRight()
+                Kz09PartialString.Create("Mandant Name").should_be_valid()
             );
 
             sut.Formatted.Should().Be("12345*Consultant Name****Mandant Name");

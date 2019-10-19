@@ -4,11 +4,13 @@ namespace Krafteq.ElsterModel.Common
 
     public class Email : NewType<Email, string>
     {
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MaxLength(70)
+        );
         
-        static readonly StringValidator Validator = StringValidator.Max(70);
         Email(string value) : base(value) {}
 
-        public static Either<Error, Email> Create(string value) =>
-            Validator.Validate(value).Map(x => new Email(x));
+        public static Validation<StringError, Email> Create(string value) =>
+            Validator(value).Map(x => new Email(x));
     }
 }

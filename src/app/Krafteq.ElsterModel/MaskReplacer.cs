@@ -8,8 +8,8 @@ namespace Krafteq.ElsterModel
 
     class MaskReplacer
     {
-        readonly string inputMask;
-        readonly string outputMask;
+        internal readonly string inputMask;
+        internal readonly string outputMask;
 
         Option<int>[] replacements;
 

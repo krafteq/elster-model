@@ -4,10 +4,13 @@ namespace Krafteq.ElsterModel.Processes.Usta
 
     public class DataSupplierZip : NewType<DataSupplierZip, string>
     {
-        static readonly StringValidator Validator = StringValidator.MinMax(1, 12);
+        static readonly Validator<StringError, string> Validator = Validators.All(
+            StringValidators.MinLength(1),
+            StringValidators.MaxLength(12)
+        );
         
-        public static Either<Error, DataSupplierZip> Create(string value) =>
-            Validator.Validate(value).Map(x => new DataSupplierZip(x));
+        public static Validation<StringError, DataSupplierZip> Create(string value) =>
+            Validator(value).Map(x => new DataSupplierZip(x));
         
         DataSupplierZip(string value) : base(value)
         {

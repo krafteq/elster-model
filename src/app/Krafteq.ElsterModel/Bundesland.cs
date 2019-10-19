@@ -59,7 +59,7 @@ namespace Krafteq.ElsterModel
 
         public static readonly Lst<Bundesland> All = Prelude.toList(all.Values);
 
-        readonly MaskReplacer taxNumberReplacer;
+        internal readonly MaskReplacer taxNumberReplacer;
 
         Bundesland(string value, MaskReplacer taxNumberReplacer) : base(value)
         {
@@ -71,17 +71,6 @@ namespace Krafteq.ElsterModel
 
         public bool IsTaxNumberValid(string value) =>
             this.taxNumberReplacer.IsValidInput(value);
-
-        public Either<Error, TaxNumber> CreateTaxNumber(string value)
-        {
-            if (!this.taxNumberReplacer.IsValidInput(value))
-            {
-                return new Error("invalid format");
-            }
-            
-            var taxNumber = this.taxNumberReplacer.Replace(value);
-            return TaxNumber.Create(taxNumber);
-        }
 
         static Bundesland Create(string code, MaskReplacer taxNumberReplacer)
         {

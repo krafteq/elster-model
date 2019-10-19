@@ -6,9 +6,9 @@ namespace Krafteq.ElsterModel
     {
         public int FieldNumber { get; }
         
-        public Lst<ValidationRule> Rules { get; }
+        public Lst<KzFieldValidationRule> Rules { get; }
 
-        public KzFieldValidationRules(int fieldNumber, Lst<ValidationRule> rules)
+        public KzFieldValidationRules(int fieldNumber, Lst<KzFieldValidationRule> rules)
         {
             this.FieldNumber = fieldNumber;
             this.Rules = rules;

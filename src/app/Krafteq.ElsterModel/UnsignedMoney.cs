@@ -1,6 +1,7 @@
 namespace Krafteq.ElsterModel
 {
     using System;
+    using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
     /// <summary>
@@ -10,6 +11,11 @@ namespace Krafteq.ElsterModel
     /// </summary>
     public class UnsignedMoney : NewType<UnsignedMoney, decimal>
     {
+        static readonly Validator<NumericError, decimal> Validator = Validators.All(
+            NumberValidators.LessThan(100000000000m),
+            NumberValidators.NonNegative()
+        );
+        
         UnsignedMoney(decimal value) 
             : base(value)
         {
@@ -22,19 +28,17 @@ namespace Krafteq.ElsterModel
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Either<Error, UnsignedMoney> RoundUp(decimal decimalValue) =>
-            Validate(decimalValue).Bind(Money.RoundUp).Map(x => new UnsignedMoney(x.Value));
+        public static Validation<NumericError, UnsignedMoney> RoundUp(decimal decimalValue) =>
+            Validator(decimalValue).Bind(Money.RoundUp).Map(x => new UnsignedMoney(x.Value));
 
         /// <summary>
         /// Usually used for Income in the UstVa report
         /// </summary>
         /// <param name="decimalValue"></param>
         /// <returns></returns>
-        public static Either<Error, UnsignedMoney> RoundDown(decimal decimalValue) =>
-            Validate(decimalValue).Bind(Money.RoundDown).Map(x => new UnsignedMoney(x.Value));
-
-        static Either<Error, decimal> Validate(decimal value) =>
-            value < 0 ? (Either<Error, decimal>) new Error("value must be not-negative") : value;
+        public static Validation<NumericError, UnsignedMoney> RoundDown(decimal decimalValue) =>
+            Validator(decimalValue).Bind(Money.RoundDown).Map(x => new UnsignedMoney(x.Value));
+        
         
         public static implicit operator decimal(UnsignedMoney money) => money.Value;
     }

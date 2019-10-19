@@ -53,24 +53,26 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
             this.F(96, KzFieldType.MoneyDown, "Tax Amount to Kz94");
             this.F(98, KzFieldType.MoneyDown, "Tax Amount to Kz95");
 
-            this.ValidationRules(83, ValidationRule.Required(), ValidationRule.Custom(ValidateKz83));
-            this.ValidationRules(47, ValidationRule.LessThan(46));
-            this.ValidationRules(53, ValidationRule.LessThan(52));
-            this.ValidationRules(74, ValidationRule.LessThan(73));
-            this.ValidationRules(79, ValidationRule.LessThan(78));
-            this.ValidationRules(80, ValidationRule.LessThan(76));
-            this.ValidationRules(85, ValidationRule.LessThan(84));
+            this.ValidationRules(83, KzFieldValidationRule.Required(), KzFieldValidationRule.Custom(ValidateKz83));
+            this.ValidationRules(47, KzFieldValidationRule.LessThan(46));
+            this.ValidationRules(53, KzFieldValidationRule.LessThan(52));
+            this.ValidationRules(74, KzFieldValidationRule.LessThan(73));
+            this.ValidationRules(79, KzFieldValidationRule.LessThan(78));
+            this.ValidationRules(80, KzFieldValidationRule.LessThan(76));
+            this.ValidationRules(85, KzFieldValidationRule.LessThan(84));
         }
 
-        static Lst<Error> ValidateKz83(KzFieldSet fieldSet, int fieldNumber) =>
+        static Lst<KzFieldError> ValidateKz83(KzFieldSet fieldSet, int fieldNumber) =>
             fieldSet.GetValue(fieldNumber).Map(x => x.GetDecimalValue())
-                .Map(fieldValue => new Kz83Calculator(fieldSet)
-                    .Calculate().ToOption()
-                    .Match(
+                .Map(fieldValue => CalculateKz83(fieldSet)
+                    .Apply(
                         estimatedValue => Math.Abs(fieldValue - estimatedValue.Value) > 0.01m
-                            ? List(new Error(
-                                $"the difference with the expected value [{estimatedValue.Value}] must not be greater than 0.01"))
-                            : Lst<Error>.Empty,
-                        () => List(new Error("calculated Kz83 value is invalid")))).IfNone(Lst<Error>.Empty);
+                            ? List(KzFieldError.MustBeCloseToValue(estimatedValue.Value, 0.01m))
+                            : Lst<KzFieldError>.Empty))
+                .IfNone(Lst<KzFieldError>.Empty);
+
+        static Money CalculateKz83(KzFieldSet fieldSet) =>
+            new Kz83Calculator(fieldSet)
+                .Calculate().IfFail(_ => throw new InvalidOperationException("Can't happen"));
     }
 }
