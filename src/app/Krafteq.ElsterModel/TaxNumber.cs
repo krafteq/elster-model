@@ -1,7 +1,6 @@
 namespace Krafteq.ElsterModel
 {
     using System;
-    using System.Security;
     using Krafteq.ElsterModel.ValidationCore;
     using LanguageExt;
 
@@ -22,9 +21,10 @@ namespace Krafteq.ElsterModel
                 return whenInvalidInput(this.inputMask);
             }
         }
-        
+
         static readonly Validator<StringError, string> Validator = Validators.All(
-            StringValidators.ExactLength(13)
+            StringValidators.ExactLength(13),
+            StringValidators.MatchRegex(@"\d{4}0\d{8}")
         );
 
         TaxNumber(string value) : base(value)
