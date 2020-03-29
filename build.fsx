@@ -50,7 +50,7 @@ Target.create "Publish" (fun _ ->
   |> Seq.iter (DotNet.nugetPush (fun opt -> 
     opt.WithPushParams(
       { opt.PushParams with 
-          ApiKey = Some (Environment.environVarOrFail "NUGET_API_KEY")
+          ApiKey = Some (Environment.environVarOrFail "NUGET_KRAFTEQ_API_KEY")
           Source = Some "https://api.nuget.org/v3/index.json"
       })
   ))
