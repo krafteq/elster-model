@@ -27,17 +27,23 @@ namespace Krafteq.ElsterModel
 
             if (this.lessThan != null)
             {
-                var comparedValue = fieldSet.GetValue(this.lessThan.Value)
+                var comparedField = fieldSet.GetValue(this.lessThan.Value);
+                var currentField = fieldSet.GetValue(fieldNumber);
+                
+                var comparedValue = comparedField
                     .Map(x => x.GetDecimalValue())
                     .IfNone(0);
 
-                return toList(fieldSet.GetValue(fieldNumber)
+                return toList(currentField
                     .Map(value => value.GetDecimalValue())
                     .Match(
                         value => value >= comparedValue && value != 0m
                             ? Some(KzFieldError.MustBeLessThanAnotherField(this.lessThan.Value))
                             : None,
-                        () => None));
+                        () => comparedField.Match(
+                            Some: _ => Some(KzFieldError.Required),
+                            None: () => None
+                        )));
             }
 
             if (this.custom != null)

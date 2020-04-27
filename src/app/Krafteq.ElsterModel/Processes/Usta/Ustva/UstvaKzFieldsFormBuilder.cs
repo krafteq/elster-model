@@ -53,7 +53,7 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
             this.F(96, KzFieldType.MoneyDown, "Tax Amount to Kz94");
             this.F(98, KzFieldType.MoneyDown, "Tax Amount to Kz95");
 
-            this.ValidationRules(83, KzFieldValidationRule.Required(), KzFieldValidationRule.Custom(ValidateKz83));
+            this.ValidationRules(83, KzFieldValidationRule.Required());
             this.ValidationRules(47, KzFieldValidationRule.LessThan(46));
             this.ValidationRules(53, KzFieldValidationRule.LessThan(52));
             this.ValidationRules(74, KzFieldValidationRule.LessThan(73));
@@ -62,6 +62,7 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
             this.ValidationRules(85, KzFieldValidationRule.LessThan(84));
         }
 
+        // model is basically not correct, so don't validate kz83 value
         static Lst<KzFieldError> ValidateKz83(KzFieldSet fieldSet, int fieldNumber) =>
             fieldSet.GetValue(fieldNumber).Map(x => x.GetDecimalValue())
                 .Map(fieldValue => CalculateKz83(fieldSet)

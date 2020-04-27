@@ -51,24 +51,6 @@ namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
                 [83] = 10
             }).IsLeft.Should().BeTrue();
         }
-          
-        [Fact]
-        public void ItShouldCreateReportWithPlausibleFields()
-        {
-            UstvaKzFields.Create(new Dictionary<int, object>
-            {
-                [81] = 100,
-                [86] = 200,
-                [83] = 33 // 200 * 0.07 + 100 * 0.19
-            }).IsRight.Should().BeTrue();
-
-            UstvaKzFields.Create(new Dictionary<int, object>
-            {
-                [81] = 100,
-                [86] = 200,
-                [83] = 33.02 
-            }).IsLeft.Should().BeTrue();
-        }
 
         [Fact]
         public void ItShouldRoundValuesInTheRightDirection()
@@ -80,6 +62,19 @@ namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
                 [86] = 200,
                 [83] = 23.01 // 200 * 0.07 + 100 * 0.19 - 9.99
             }).AssertRight();
+        }
+
+        [Fact]
+        public void ItShouldReturnErrorWhenKz47IsNotPresentedButKz46Is()
+        {
+            var result = UstvaKzFields.Create(new Dictionary<int, object>
+            {
+                [46] = 100,
+                // 47 is missing, so it must be a validation error
+                [83] = 0
+            });
+
+            result.IsLeft.Should().BeTrue();
         }
     }
 }
