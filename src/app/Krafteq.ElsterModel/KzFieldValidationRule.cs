@@ -37,7 +37,7 @@ namespace Krafteq.ElsterModel
                 return toList(currentField
                     .Map(value => value.GetDecimalValue())
                     .Match(
-                        value => value >= comparedValue && value != 0m
+                        value => Math.Abs(value) >= Math.Abs(comparedValue) && value != 0m
                             ? Some(KzFieldError.MustBeLessThanAnotherField(this.lessThan.Value))
                             : None,
                         () => comparedField.Match(

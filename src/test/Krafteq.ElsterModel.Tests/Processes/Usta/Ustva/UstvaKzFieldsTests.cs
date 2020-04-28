@@ -76,5 +76,18 @@ namespace Krafteq.ElsterModel.Tests.Processes.Usta.Ustva
 
             result.IsLeft.Should().BeTrue();
         }
+
+        [Fact]
+        public void ItShouldCreateReportWithNegativeKz47GreaterThanNegativeKz46()
+        {
+            var result = UstvaKzFields.Create(new Dictionary<int, object>
+            {
+                [46] = -100,
+                [47] = -10,
+                [83] = 10
+            });
+
+            result.IsRight.Should().BeTrue();
+        }
     }
 }
