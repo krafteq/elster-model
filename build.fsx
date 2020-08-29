@@ -41,6 +41,10 @@ Target.create "Pack" (fun _ ->
   |> Seq.iter (DotNet.pack (fun opt -> 
     { opt with 
         OutputPath = Some publishPath
+        MSBuildParams =
+          { opt.MSBuildParams with
+              DisableInternalBinLog = true
+          }
     } 
   ))
 )

@@ -52,7 +52,7 @@ namespace Krafteq.ElsterModel.Processes.Usta.Ustva
             this.F(95, KzFieldType.MoneyIntDown, "Intra-Community acquisitions at other tax rates");
             this.F(96, KzFieldType.MoneyDown, "Tax Amount to Kz94");
             this.F(98, KzFieldType.MoneyDown, "Tax Amount to Kz95");
-
+            
             this.ValidationRules(83, KzFieldValidationRule.Required());
             this.ValidationRules(47, KzFieldValidationRule.LessThan(46));
             this.ValidationRules(53, KzFieldValidationRule.LessThan(52));
